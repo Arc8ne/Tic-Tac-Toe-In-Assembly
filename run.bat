@@ -1,0 +1,1 @@
+start "The Tic Tac Toe CLI" bin/tic-tac-toe.exe
