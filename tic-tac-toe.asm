@@ -25,6 +25,8 @@ extern _ExitProcess@4
 %define SUCCESS_EXIT_CODE 0
 %define ERROR_EXIT_CODE -1
 %define ZERO_ASCII_CODE 48
+%define CELL_CIRCLE_CHAR 'O'
+%define CELL_CROSS_CHAR 'X'
 
 %macro init_stack 0
     push ebp
@@ -139,9 +141,20 @@ _print_board_br_2:
     cmp ebx, 0
     jl _print_board_br_1
     mov edx, [ecx + ebx]
+    cmp edx, CELL_CIRCLE_VALUE
+    je _print_board_br_cell_circle_value
+    cmp edx, CELL_CROSS_VALUE
+    je _print_board_br_cell_cross_value
+_print_board_br_3:
     push edx
     sub ebx, 1
     jmp _print_board_br_2
+_print_board_br_cell_circle_value:
+    mov edx, CELL_CIRCLE_CHAR
+    jmp _print_board_br_3
+_print_board_br_cell_cross_value:
+    mov edx, CELL_CROSS_CHAR
+    jmp _print_board_br_3
 _on_new_game_option_selected:
     ; push startingNewGameText
     ; call _printf
