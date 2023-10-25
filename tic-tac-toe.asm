@@ -149,6 +149,7 @@ _print_board_br_3:
     push edx
     sub ebx, 1
     jmp _print_board_br_2
+; TODO: Perform tests to ensure correct characters are being printed at the correct cell positions when marks are made on the board.
 _print_board_br_cell_circle_value:
     mov edx, CELL_CIRCLE_CHAR
     jmp _print_board_br_3
