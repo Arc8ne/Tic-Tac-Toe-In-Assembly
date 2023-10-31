@@ -27,6 +27,7 @@ extern _ExitProcess@4
 %define ZERO_ASCII_CODE 48
 %define CELL_CIRCLE_CHAR 'O'
 %define CELL_CROSS_CHAR 'X'
+%define CELL_EMPTY_CHAR ' '
 
 %macro init_stack 0
     push ebp
@@ -122,7 +123,8 @@ _init_board_exit:
 _init_board_br_1:
     cmp ebx, NUM_CELLS_IN_A_BOARD
     jge _init_board_exit
-    mov byte [ecx + ebx], CELL_EMPTY_VALUE
+    ; mov byte [ecx + ebx], CELL_EMPTY_VALUE
+    mov byte [ecx + ebx], CELL_EMPTY_CHAR
     add ebx, 1
     jmp _init_board_br_1
 ; The _print_board function.
@@ -131,6 +133,7 @@ _print_board:
     init_stack
     mov ebx, NUM_CELLS_IN_A_BOARD - 1
     mov ecx, [ebp + 8]
+    mov edx, 0
     jmp _print_board_br_2
 _print_board_br_1:
     push ticTacToeBoardAsText
@@ -140,11 +143,12 @@ _print_board_br_1:
 _print_board_br_2:
     cmp ebx, 0
     jl _print_board_br_1
-    mov edx, [ecx + ebx]
-    cmp edx, CELL_CIRCLE_VALUE
-    je _print_board_br_cell_circle_value
-    cmp edx, CELL_CROSS_VALUE
-    je _print_board_br_cell_cross_value
+    mov dl, byte [ecx + ebx]
+    ; cmp edx, CELL_CIRCLE_VALUE
+    ; je _print_board_br_cell_circle_value
+    ; cmp edx, CELL_CROSS_VALUE
+    ; je _print_board_br_cell_cross_value
+    ; mov edx, CELL_EMPTY_CHAR
 _print_board_br_3:
     push edx
     sub ebx, 1
@@ -290,7 +294,7 @@ _on_put_mark_in_game_option_selected:
     ; the memory location of the selected cell (which tracks whether a cell has not been marked,
     ; has been marked by the player, or has been marked by the player's opponent).
     mov cl, [ebp - 13]
-    mov [ebp - 12 + ebx], cl
+    mov byte [ebp - 12 + ebx], CELL_CROSS_CHAR
     jmp _main_game_loop_br_1
 _on_save_in_game_option_selected:
     jmp _main_game_loop_br_1
