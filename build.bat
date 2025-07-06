@@ -1,3 +1,3 @@
-nasm -f win32 tic-tac-toe.asm -o bin/tic-tac-toe.o
+call nasm src/tic-tac-toe.asm -o bin/obj/tic-tac-toe.o -f win64 -l build/tic-tac-toe.lst
 
-gcc -m32 -o bin/tic-tac-toe.exe bin/tic-tac-toe.o
+call gcc bin/obj/tic-tac-toe.o -o bin/tic-tac-toe.exe
